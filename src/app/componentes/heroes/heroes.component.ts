@@ -1,19 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Hero } from 'src/app/hero.model';
+import { HeroService } from 'src/app/services/hero.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-heroes',
   templateUrl: './heroes.component.html',
   styleUrls: ['./heroes.component.scss']
 })
-export class HeroesComponent {
+export class HeroesComponent implements OnInit{
 
-    hero: Hero = {name:" Wolverine", id: 1};
+    heroes:Hero[] = []
 
-    constructor(){}
+    constructor(
+        private heroService: HeroService,
+        ){}
 
     ngOnInit(): void {
-        //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-        //Add 'implements OnInit' to the class.
-}
+        this.getHeroes();
+    }
+
+    getHeroes():void{
+        this.heroService.getHeroes().subscribe((heroes) => (this.heroes = heroes));
+    }
+
 }
